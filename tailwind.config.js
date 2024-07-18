@@ -3,21 +3,15 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        glass: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+      },
       transitionProperty: {
         colors: "color, box-shadow",
       },
       fontFamily: {
         montseratt: ["Montserrat"],
       },
-    },
-    keyframes: {
-      wiggle: {
-        "0%, 100%": { transform: "rotate(-3deg)" },
-        "50%": { transform: "rotate(3deg)" },
-      },
-    },
-    animation: {
-      wiggle: "wiggle 75ms 4",
     },
   },
   plugins: [],
