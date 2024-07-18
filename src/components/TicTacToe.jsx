@@ -12,7 +12,7 @@ export default function TicTacToe() {
   });
 
   return (
-    <div className="overflow-hidden h-svh bg-zinc-800 pattern">
+    <div className="overflow-auto h-dvh bg-zinc-800 pattern">
       <div className="absolute top-0 left-0 flex items-center justify-center w-full overflow-hidden pointer-events-none h-svh">
         <div className="bg-green-400/10 size-[700px] rounded-full scale-y-[90%] blur-[120px]"></div>
       </div>
