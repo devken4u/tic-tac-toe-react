@@ -8,7 +8,7 @@ export default function GameTable({ gameTable }) {
   const data = useGameContext();
 
   return (
-    <div className="relative z-10 shrink-0 min-w-[264px]">
+    <div className="relative z-10 shrink-0 min-w-[264px] h-svh">
       <div className="flex justify-end gap-4 py-4">
         <button
           onClick={() => data.setIsMenuOpen(true)}
