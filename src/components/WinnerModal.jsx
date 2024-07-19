@@ -4,7 +4,7 @@ export default function WinnerModal() {
   const data = useGameContext();
 
   return (
-    <div className="absolute top-0 left-0 flex items-center flex-col justify-center w-full h-svh bg-black/40 z-[100] gap-4">
+    <div className="absolute top-0 left-0 flex items-center flex-col justify-center w-full h-svh bg-black/70 z-[100] gap-4">
       <div className="text-3xl font-bold text-center text-white sm:text-4xl md:text-5xl lg:text-7xl">
         {data.winnerName} wins!
       </div>
