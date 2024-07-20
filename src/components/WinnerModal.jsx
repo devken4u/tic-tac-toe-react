@@ -18,8 +18,16 @@ export default function WinnerModal() {
         <button
           onClick={() => {
             data.setGameTable([0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            data.setPlayerOneMoves([0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            data.setPlayerTwoMoves([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            data.setPlayerOne((prev) => ({
+              ...prev,
+              moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+              movesHistory: [],
+            }));
+            data.setPlayerTwo((prev) => ({
+              ...prev,
+              moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+              movesHistory: [],
+            }));
             data.setCurrentPlayer(1);
             data.setWinnerName(null);
           }}

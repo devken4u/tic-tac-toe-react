@@ -18,12 +18,14 @@ export default function PlayerVsPlayer({ gameSettings, setIsMenuOpen }) {
   const [winnerName, setWinnerName] = useState(null);
   const [gameTable, setGameTable] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [currentPlayer, setCurrentPlayer] = useState(1);
-  const [playerOneMoves, setPlayerOneMoves] = useState([
-    0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]);
-  const [playerTwoMoves, setPlayerTwoMoves] = useState([
-    0, 0, 0, 0, 0, 0, 0, 0, 0,
-  ]);
+  const [playerOne, setPlayerOne] = useState({
+    moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    movesHistory: [],
+  });
+  const [playerTwo, setPlayerTwo] = useState({
+    moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    movesHistory: [],
+  });
 
   function isMovesMatch(moves) {
     let matches = 0;
@@ -42,16 +44,58 @@ export default function PlayerVsPlayer({ gameSettings, setIsMenuOpen }) {
     return isMatched;
   }
 
-  function checkWinner() {
-    if (isMovesMatch(playerOneMoves)) {
-      setWinnerName("Player 1");
-    } else if (isMovesMatch(playerTwoMoves)) {
-      setWinnerName("Player 2");
-    }
-  }
-
   useEffect(() => {
-    checkWinner();
+    if (gameSettings.mode === "infinite") {
+      if (playerOne.movesHistory.length >= 4) {
+        let tempGameTable = [...gameTable];
+        tempGameTable[playerOne.movesHistory[0]] = 0;
+        setGameTable(() => tempGameTable);
+
+        const moves = [...playerOne.moves];
+        moves[playerOne.movesHistory[0]] = 0;
+
+        let movesHistory = [...playerOne.movesHistory];
+        movesHistory.shift();
+
+        setPlayerOne((prev) => ({
+          ...prev,
+          moves: moves,
+          movesHistory: movesHistory,
+        }));
+
+        if (isMovesMatch(moves)) {
+          setWinnerName("Player 1");
+        }
+      }
+
+      if (playerTwo.movesHistory.length >= 4) {
+        let tempGameTable = [...gameTable];
+        tempGameTable[playerTwo.movesHistory[0]] = 0;
+        setGameTable(() => tempGameTable);
+
+        const moves = [...playerTwo.moves];
+        moves[playerTwo.movesHistory[0]] = 0;
+
+        let movesHistory = [...playerTwo.movesHistory];
+        movesHistory.shift();
+
+        setPlayerTwo((prev) => ({
+          ...prev,
+          moves: moves,
+          movesHistory: movesHistory,
+        }));
+
+        if (isMovesMatch(moves)) {
+          setWinnerName("Player 2");
+        }
+      }
+    } else {
+      if (isMovesMatch(playerOne.moves)) {
+        setWinnerName("Player 1");
+      } else if (isMovesMatch(playerTwo.moves)) {
+        setWinnerName("Player 2");
+      }
+    }
   }, [gameTable]);
 
   return (
@@ -62,14 +106,14 @@ export default function PlayerVsPlayer({ gameSettings, setIsMenuOpen }) {
           gameTable,
           currentPlayer,
           setCurrentPlayer,
-          setPlayerOneMoves,
-          setPlayerTwoMoves,
-          playerOneMoves,
-          playerTwoMoves,
           gameSettings,
           winnerName,
           setWinnerName,
           setIsMenuOpen,
+          playerOne,
+          setPlayerOne,
+          playerTwo,
+          setPlayerTwo,
         }}
       >
         {winnerName && <WinnerModal />}

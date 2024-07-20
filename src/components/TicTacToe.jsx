@@ -7,7 +7,7 @@ import PlayerVsPlayer from "./PlayerVsPlayer";
 export default function TicTacToe() {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const [gameSettings, setGameSettings] = useState({
-    mode: "classic",
+    mode: "infinite",
     versus: "pvp",
   });
 

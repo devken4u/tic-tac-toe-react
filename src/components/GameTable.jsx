@@ -4,7 +4,7 @@ import { MdOutlineCircle } from "react-icons/md";
 import { useGameContext } from "../customHook/useGameContext";
 import { cn } from "../utils/utils";
 
-export default function GameTable({ gameTable }) {
+export default function GameTable() {
   const data = useGameContext();
 
   return (
@@ -19,8 +19,16 @@ export default function GameTable({ gameTable }) {
         <button
           onClick={() => {
             data.setGameTable([0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            data.setPlayerOneMoves([0, 0, 0, 0, 0, 0, 0, 0, 0]);
-            data.setPlayerTwoMoves([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+            data.setPlayerOne((prev) => ({
+              ...prev,
+              moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+              movesHistory: [],
+            }));
+            data.setPlayerTwo((prev) => ({
+              ...prev,
+              moves: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+              movesHistory: [],
+            }));
             data.setCurrentPlayer(1);
           }}
           className="px-4 py-1 text-sm font-bold text-green-400 rounded-md shadow-sm md:text-lg md:px-6 active:scale-95 bg-zinc-800 shadow-green-400"
@@ -29,15 +37,15 @@ export default function GameTable({ gameTable }) {
         </button>
       </div>
       <div className="inline-grid grid-cols-3 gap-3 shadow-lg">
-        <Cell index={0} gameTable={gameTable} />
-        <Cell index={1} gameTable={gameTable} />
-        <Cell index={2} gameTable={gameTable} />
-        <Cell index={3} gameTable={gameTable} />
-        <Cell index={4} gameTable={gameTable} />
-        <Cell index={5} gameTable={gameTable} />
-        <Cell index={6} gameTable={gameTable} />
-        <Cell index={7} gameTable={gameTable} />
-        <Cell index={8} gameTable={gameTable} />
+        <Cell index={0} />
+        <Cell index={1} />
+        <Cell index={2} />
+        <Cell index={3} />
+        <Cell index={4} />
+        <Cell index={5} />
+        <Cell index={6} />
+        <Cell index={7} />
+        <Cell index={8} />
       </div>
       <div className="flex justify-between p-6 font-semibold text-white ">
         <div className="flex flex-col items-center gap-2">

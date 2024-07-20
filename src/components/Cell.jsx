@@ -3,10 +3,12 @@ import { MdOutlineCircle } from "react-icons/md";
 import { cn } from "../utils/utils";
 import { motion, useAnimationControls } from "framer-motion";
 import { useGameContext } from "../customHook/useGameContext";
+import { useEffect, useRef } from "react";
 
 export default function Cell({ index }) {
   const controls = useAnimationControls();
   const data = useGameContext();
+  const icon = useRef(null);
 
   function handleCellClick() {
     if (data.gameTable[index] === 0) {
@@ -16,18 +18,26 @@ export default function Cell({ index }) {
         return temp;
       });
       if (data.currentPlayer === 1) {
-        data.setPlayerOneMoves(() => {
-          const temp = [...data.playerOneMoves];
-          temp[index] = 1;
-          return temp;
-        });
+        const moves = [...data.playerOne.moves];
+        moves[index] = 1;
+        const movesHistory = [...data.playerOne.movesHistory];
+        movesHistory.push(index);
+        data.setPlayerOne((prev) => ({
+          ...prev,
+          moves: moves,
+          movesHistory: movesHistory,
+        }));
         data.setCurrentPlayer(2);
       } else {
-        data.setPlayerTwoMoves(() => {
-          const temp = [...data.playerTwoMoves];
-          temp[index] = 1;
-          return temp;
-        });
+        const moves = [...data.playerTwo.moves];
+        moves[index] = 1;
+        const movesHistory = [...data.playerTwo.movesHistory];
+        movesHistory.push(index);
+        data.setPlayerTwo((prev) => ({
+          ...prev,
+          moves: moves,
+          movesHistory: movesHistory,
+        }));
         data.setCurrentPlayer(1);
       }
     } else {
@@ -35,8 +45,31 @@ export default function Cell({ index }) {
     }
   }
 
+  useEffect(() => {
+    if (data.gameSettings.mode === "infinite") {
+      if (
+        data.playerOne.movesHistory.length >= 3 &&
+        data.playerOne.movesHistory[0] === index
+      ) {
+        icon.current.style.opacity = 0.5;
+      }
+
+      if (
+        data.playerTwo.movesHistory.length >= 3 &&
+        data.playerTwo.movesHistory[0] === index
+      ) {
+        icon.current.style.opacity = 0.5;
+      }
+
+      if (data.gameTable[index] === 0) {
+        icon.current.style.opacity = 1;
+      }
+    }
+  });
+
   return (
     <motion.div
+      ref={icon}
       variants={{
         wiggle: {
           x: [0, -5, 5, -5, 5, 0],
@@ -55,7 +88,7 @@ export default function Cell({ index }) {
         }
       )}
     >
-      {data.gameTable[index] !== 0 && (
+      {data.gameTable[index] !== 0 ? (
         <motion.div
           initial={{
             scale: 0,
@@ -74,6 +107,8 @@ export default function Cell({ index }) {
             <RiCloseLargeFill />
           )}
         </motion.div>
+      ) : (
+        ""
       )}
     </motion.div>
   );
