@@ -66,6 +66,10 @@ export default function PlayerVsPlayer({ gameSettings, setIsMenuOpen }) {
         if (isMovesMatch(moves)) {
           setWinnerName("Player 1");
         }
+      } else if (playerOne.movesHistory.length === 3) {
+        if (isMovesMatch(playerOne.moves)) {
+          setWinnerName("Player 1");
+        }
       }
 
       if (playerTwo.movesHistory.length >= 4) {
@@ -87,6 +91,10 @@ export default function PlayerVsPlayer({ gameSettings, setIsMenuOpen }) {
 
         if (isMovesMatch(moves)) {
           setWinnerName("Player 2");
+        }
+      } else if (playerOne.movesHistory.length === 3) {
+        if (isMovesMatch(playerTwo.moves)) {
+          setWinnerName("Player 1");
         }
       }
     } else {
